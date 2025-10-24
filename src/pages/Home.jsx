@@ -111,6 +111,24 @@ export default function Home() {
           )}
         </div>
       </section>
+
+      {/* Top Anime Section */}
+      <section className="py-20 px-6 bg-gray-800/50">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Top Rated Anime
+          </h2>
+          {loading ? (
+            <div className="text-center text-gray-400">Loading...</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {topAnime.map((anime) => (
+                <AnimeCard key={anime.mal_id} anime={anime} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 }
