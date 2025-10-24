@@ -1,0 +1,195 @@
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { BookmarkPlus, BookmarkCheck, Star, Calendar, Tv, ArrowLeft } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { doc, setDoc, deleteDoc, getDoc } from 'firebase/firestore';
+import { db } from '../config/firebase';
+
+export default function AnimeDetails() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { currentUser } = useAuth();
+  const [anime, setAnime] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isInWatchlist, setIsInWatchlist] = useState(false);
+  const [updating, setUpdating] = useState(false);
+
+  useEffect(() => {
+    fetchAnimeDetails();
+    if (currentUser) {
+      checkWatchlistStatus();
+    }
+  }, [id, currentUser]);
+
+  const fetchAnimeDetails = async () => {
+    try {
+      const response = await fetch(`https://api.jikan.moe/v4/anime/${id}`);
+      const data = await response.json();
+      setAnime(data.data);
+    } catch (error) {
+      console.error('Error fetching anime details:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const checkWatchlistStatus = async () => {
+    try {
+      const watchlistRef = doc(db, 'users', currentUser.uid, 'watchlist', id);
+      const docSnap = await getDoc(watchlistRef);
+      setIsInWatchlist(docSnap.exists());
+    } catch (error) {
+      console.error('Error checking watchlist:', error);
+    }
+  };
+
+  const handleWatchlist = async () => {
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+
+    setUpdating(true);
+    try {
+      const watchlistRef = doc(db, 'users', currentUser.uid, 'watchlist', id);
+      
+      if (isInWatchlist) {
+        await deleteDoc(watchlistRef);
+        setIsInWatchlist(false);
+      } else {
+        await setDoc(watchlistRef, {
+          mal_id: anime.mal_id,
+          title: anime.title,
+          image: anime.images?.jpg?.large_image_url,
+          score: anime.score,
+          addedAt: new Date()
+        });
+        setIsInWatchlist(true);
+      }
+    } catch (error) {
+      console.error('Error updating watchlist:', error);
+      alert('Failed to update watchlist');
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-32 px-6 flex items-center justify-center">
+        <div className="text-gray-400 text-xl">Loading anime details...</div>
+      </div>
+    );
+  }
+
+  if (!anime) {
+    return (
+      <div className="min-h-screen pt-32 px-6 flex items-center justify-center">
+        <div className="text-gray-400 text-xl">Anime not found</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen pt-20">
+      {/* Hero Section with Background */}
+      <div className="relative h-96 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center blur-sm scale-110"
+          style={{ backgroundImage: `url(${anime.images?.jpg?.large_image_url})` }}
+        ></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/80 to-gray-900/40"></div>
+      </div>
+
+      {/* Content */}
+      <div className="container mx-auto max-w-6xl px-6 -mt-64 relative z-10">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-gray-300 hover:text-white mb-6 transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          Back
+        </button>
+
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Poster */}
+          <div className="flex-shrink-0">
+            <img
+              src={anime.images?.jpg?.large_image_url}
+              alt={anime.title}
+              className="w-64 rounded-2xl shadow-2xl border-2 border-gray-700"
+            />
+            <button
+              onClick={handleWatchlist}
+              disabled={updating}
+              className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {isInWatchlist ? <BookmarkCheck className="w-5 h-5" /> : <BookmarkPlus className="w-5 h-5" />}
+              {isInWatchlist ? 'In Watchlist' : 'Add to Watchlist'}
+            </button>
+          </div>
+
+          {/* Details */}
+          <div className="flex-grow">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              {anime.title}
+            </h1>
+            {anime.title_english && anime.title_english !== anime.title && (
+              <p className="text-xl text-gray-400 mb-6">{anime.title_english}</p>
+            )}
+
+            <div className="flex flex-wrap gap-6 mb-8">
+              <div className="flex items-center gap-2">
+                <Star className="w-5 h-5 text-yellow-400" />
+                <span className="text-lg">{anime.score || 'N/A'} / 10</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-purple-400" />
+                <span>{anime.year || 'Unknown'}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Tv className="w-5 h-5 text-pink-400" />
+                <span>{anime.type} • {anime.episodes || '?'} episodes</span>
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <h3 className="text-xl font-semibold mb-2">Genres</h3>
+              <div className="flex flex-wrap gap-2">
+                {anime.genres?.map(genre => (
+                  <span key={genre.mal_id} className="px-4 py-1 bg-gray-800 border border-gray-700 rounded-full text-sm">
+                    {genre.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <h3 className="text-xl font-semibold mb-2">Synopsis</h3>
+              <p className="text-gray-300 leading-relaxed">{anime.synopsis || 'No synopsis available.'}</p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 bg-gray-800/50 p-6 rounded-xl">
+              <div>
+                <p className="text-gray-400 text-sm">Status</p>
+                <p className="font-semibold">{anime.status}</p>
+              </div>
+              <div>
+                <p className="text-gray-400 text-sm">Aired</p>
+                <p className="font-semibold">{anime.aired?.string || 'Unknown'}</p>
+              </div>
+              <div>
+                <p className="text-gray-400 text-sm">Studios</p>
+                <p className="font-semibold">{anime.studios?.map(s => s.name).join(', ') || 'Unknown'}</p>
+              </div>
+              <div>
+                <p className="text-gray-400 text-sm">Source</p>
+                <p className="font-semibold">{anime.source || 'Unknown'}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
