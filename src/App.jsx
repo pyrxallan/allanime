@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import { AuthProvider } from './contexts/AuthContext';
 import Home from './pages/Home';
-import Search from './pages/Search';
-import MyList from './pages/MyList';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import AnimeDetails from './pages/AnimeDetails';
+import SearchBar from './components/SearchBar';
+
+import Navbar from './components/NavBar';
+import Footer from './components/Footer';
+import FilterDropdown from './components/FilterDropdown';
+
+
 
 function App() {
   return (

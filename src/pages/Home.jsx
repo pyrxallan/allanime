@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import AnimeCard from '../components/AnimeCard';
+
 import { Tv, BookmarkPlus, Smartphone } from 'lucide-react';
 
 export default function Home() {
