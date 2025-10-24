@@ -52,7 +52,7 @@ export default function AnimeDetails() {
     setUpdating(true);
     try {
       const watchlistRef = doc(db, 'users', currentUser.uid, 'watchlist', id);
-      
+
       if (isInWatchlist) {
         await deleteDoc(watchlistRef);
         setIsInWatchlist(false);
@@ -92,44 +92,26 @@ export default function AnimeDetails() {
 
   return (
     <div className="min-h-screen pt-20">
-      {/* Hero Section with Background */}
       <div className="relative h-96 overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center blur-sm scale-110"
-          style={{ backgroundImage: `url(${anime.images?.jpg?.large_image_url})` }}
-        ></div>
+        <div className="absolute inset-0 bg-cover bg-center blur-sm scale-110" style={{ backgroundImage: `url(${anime.images?.jpg?.large_image_url})` }}></div>
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/80 to-gray-900/40"></div>
       </div>
 
-      {/* Content */}
       <div className="container mx-auto max-w-6xl px-6 -mt-64 relative z-10">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-gray-300 hover:text-white mb-6 transition-colors"
-        >
+        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-gray-300 hover:text-white mb-6 transition-colors">
           <ArrowLeft className="w-5 h-5" />
           Back
         </button>
 
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Poster */}
           <div className="flex-shrink-0">
-            <img
-              src={anime.images?.jpg?.large_image_url}
-              alt={anime.title}
-              className="w-64 rounded-2xl shadow-2xl border-2 border-gray-700"
-            />
-            <button
-              onClick={handleWatchlist}
-              disabled={updating}
-              className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
-            >
+            <img src={anime.images?.jpg?.large_image_url} alt={anime.title} className="w-64 rounded-2xl shadow-2xl border-2 border-gray-700" />
+            <button onClick={handleWatchlist} disabled={updating} className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50">
               {isInWatchlist ? <BookmarkCheck className="w-5 h-5" /> : <BookmarkPlus className="w-5 h-5" />}
               {isInWatchlist ? 'In Watchlist' : 'Add to Watchlist'}
             </button>
           </div>
 
-          {/* Details */}
           <div className="flex-grow">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
               {anime.title}
