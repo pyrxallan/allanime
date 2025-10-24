@@ -33,3 +33,7 @@ npm run build
 
 ## Deployment
 Deployed on Render: 
+
+## 📄 License
+
+MIT License - feel free to use this project for learning!
