@@ -6,24 +6,25 @@ import AnimeCard from '../components/AnimeCard';
 import { useNavigate } from 'react-router-dom';
 
 export default function MyList() {
-    const { currentUser } = useAuth();
-    const [animeList, setAnimeList] = useState([]);
-    const navigate = useNavigate();
+  const { currentUser } = useAuth();
+  const [watchlist, setWatchlist] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!currentUser) {
-            navigate('/login');
-            return;
-        }
-        fetchWatchList();
-    }, [currentUser, navigate]);
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+    fetchWatchlist();
+  }, [currentUser, navigate]);
 
-    const fetchWatchList = async () => {
-        try {
+  const fetchWatchlist = async () => {
+    try {
       const watchlistRef = collection(db, 'users', currentUser.uid, 'watchlist');
       const q = query(watchlistRef, orderBy('addedAt', 'desc'));
       const querySnapshot = await getDocs(q);
-      
+
       const animeList = [];
       querySnapshot.forEach((doc) => {
         animeList.push({ ...doc.data(), id: doc.id });
@@ -49,26 +50,19 @@ export default function MyList() {
         ) : watchlist.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-gray-400 text-xl mb-6">Your watchlist is empty</p>
-            <button
-              onClick={() => navigate('/search')}
-              className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full hover:opacity-90 transition-opacity"
-            >
+            <button onClick={() => navigate('/search')} className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full hover:opacity-90 transition-opacity">
               Browse Anime
             </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {watchlist.map((anime) => (
-              <AnimeCard 
-                key={anime.mal_id} 
-                anime={{
-                  mal_id: anime.mal_id,
-                  title: anime.title,
-                  images: { jpg: { large_image_url: anime.image } },
-                  score: anime.score
-                }} 
-                isInWatchlist={true}
-              />
+              <AnimeCard key={anime.mal_id} anime={{
+                mal_id: anime.mal_id,
+                title: anime.title,
+                images: { jpg: { large_image_url: anime.image } },
+                score: anime.score
+              }} isInWatchlist={true} />
             ))}
           </div>
         )}
@@ -76,4 +70,3 @@ export default function MyList() {
     </div>
   );
 }
-      
