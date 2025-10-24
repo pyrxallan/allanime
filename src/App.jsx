@@ -11,15 +11,15 @@ import AnimeDetails from './pages/AnimeDetails';
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <div className="flex flex-col min-h-screen">
+    <AuthProvider>
+      <Router>
+        <div className="min-h-screen bg-gray-900 text-white flex flex-col">
           <NavBar />
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/search" element={<Search />} />
-              <Route path="/my-list" element={<MyList />} />
+              <Route path="/mylist" element={<MyList />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/anime/:id" element={<AnimeDetails />} />
@@ -27,8 +27,8 @@ function App() {
           </main>
           <Footer />
         </div>
-      </AuthProvider>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
 }
 
