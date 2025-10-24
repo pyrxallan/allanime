@@ -1,19 +1,19 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
-import Home from './pages/Home';
-import SearchBar from './components/SearchBar';
-
-import Navbar from './components/NavBar';
+import { AuthProvider } from './context/AuthContext';
+import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import FilterDropdown from './components/FilterDropdown';
-
-
+import Home from './pages/Home';
+import Search from './pages/Search';
+import MyList from './pages/MyList';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import AnimeDetails from './pages/AnimeDetails';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+    <Router>
+      <AuthProvider>
+        <div className="flex flex-col min-h-screen">
           <Navbar />
           <main className="flex-grow">
             <Routes>
@@ -27,8 +27,8 @@ function App() {
           </main>
           <Footer />
         </div>
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 
