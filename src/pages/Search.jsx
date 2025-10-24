@@ -70,50 +70,33 @@ export default function Search() {
           Search Anime
         </h1>
 
-        <SearchBar 
-          value={searchQuery}
-          onChange={setSearchQuery}
-          onSearch={handleSearch}
-        />
+        <SearchBar value={searchQuery} onChange={setSearchQuery} onSearch={handleSearch} />
 
-        {/* Filters */}
         <div className="mt-8 flex flex-wrap gap-4 justify-center items-center">
           <div className="flex items-center gap-2">
             <Filter className="w-5 h-5 text-purple-400" />
             <span className="text-gray-300">Filters:</span>
           </div>
-          
-          <select
-            value={selectedGenre}
-            onChange={(e) => setSelectedGenre(e.target.value)}
-            className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-full text-white focus:outline-none focus:border-purple-500"
-          >
+
+          <select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)} className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-full text-white focus:outline-none focus:border-purple-500">
             <option value="">All Genres</option>
             {genres.map(genre => (
               <option key={genre.id} value={genre.id}>{genre.name}</option>
             ))}
           </select>
 
-          <select
-            value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value)}
-            className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-full text-white focus:outline-none focus:border-purple-500"
-          >
+          <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-full text-white focus:outline-none focus:border-purple-500">
             <option value="">All Types</option>
             {types.map(type => (
               <option key={type} value={type}>{type}</option>
             ))}
           </select>
 
-          <button
-            onClick={handleSearch}
-            className="px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full hover:opacity-90 transition-opacity"
-          >
+          <button onClick={handleSearch} className="px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full hover:opacity-90 transition-opacity">
             Apply Filters
           </button>
         </div>
 
-        {/* Results */}
         <div className="mt-12">
           {loading ? (
             <div className="text-center text-gray-400 py-20">Loading...</div>
