@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Mail, Lock, User, Chrome, Github as GithubIcon } from 'lucide-react';
+import { Mail, Lock, Chrome, Github } from 'lucide-react';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -14,7 +14,7 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (password !== confirmPassword) {
       return setError('Passwords do not match');
     }
@@ -85,14 +85,7 @@ export default function Signup() {
               <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
-                  placeholder="your@email.com"
-                />
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors" placeholder="your@email.com" />
               </div>
             </div>
 
@@ -100,14 +93,7 @@ export default function Signup() {
               <label className="block text-sm font-medium text-gray-300 mb-2">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
-                  placeholder="••••••••"
-                />
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors" placeholder="••••••••" />
               </div>
             </div>
 
@@ -115,22 +101,11 @@ export default function Signup() {
               <label className="block text-sm font-medium text-gray-300 mb-2">Confirm Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors"
-                  placeholder="••••••••"
-                />
+                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="w-full pl-12 pr-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-colors" placeholder="••••••••" />
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
+            <button type="submit" disabled={loading} className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50">
               {loading ? 'Creating account...' : 'Sign Up'}
             </button>
           </form>
@@ -146,20 +121,12 @@ export default function Signup() {
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-4">
-              <button
-                onClick={handleGoogleSignup}
-                disabled={loading}
-                className="flex items-center justify-center gap-2 py-3 bg-gray-900 border border-gray-700 rounded-lg hover:border-purple-500 transition-colors disabled:opacity-50"
-              >
+              <button onClick={handleGoogleSignup} disabled={loading} className="flex items-center justify-center gap-2 py-3 bg-gray-900 border border-gray-700 rounded-lg hover:border-purple-500 transition-colors disabled:opacity-50">
                 <Chrome className="w-5 h-5" />
                 Google
               </button>
-              <button
-                onClick={handleGithubSignup}
-                disabled={loading}
-                className="flex items-center justify-center gap-2 py-3 bg-gray-900 border border-gray-700 rounded-lg hover:border-purple-500 transition-colors disabled:opacity-50"
-              >
-                <GithubIcon className="w-5 h-5" />
+              <button onClick={handleGithubSignup} disabled={loading} className="flex items-center justify-center gap-2 py-3 bg-gray-900 border border-gray-700 rounded-lg hover:border-purple-500 transition-colors disabled:opacity-50">
+                <Github className="w-5 h-5" />
                 GitHub
               </button>
             </div>
