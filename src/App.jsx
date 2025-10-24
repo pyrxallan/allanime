@@ -1,27 +1,34 @@
-import { useState } from 'react';
-import Header from './components/Home';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import AnimeCard from './components/AnimeCard';
-import Navbar from './components/NavBar';
-import SearchBar from './components/SearchBar';
+import Home from './pages/Home';
+import Search from './pages/Search';
+import MyList from './pages/MyList';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import AnimeDetails from './pages/AnimeDetails';
 
 function App() {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-  };
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <Header />
-      <SearchBar onSearch={handleSearch} />
-      <main className="flex-grow container mx-auto p-4">
-        <AnimeCard searchQuery={searchQuery} />
-      </main>
-      <Footer />
-    </div>
+    <AuthProvider>
+      <Router>
+        <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+          <Navbar />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/my-list" element={<MyList />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/anime/:id" element={<AnimeDetails />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
