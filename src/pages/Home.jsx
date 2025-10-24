@@ -72,6 +72,27 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      {/* Features Section */}
+      <section className="py-20 px-6 bg-gray-800/50">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Why Choose AllAnime?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <div 
+                key={index}
+                className="bg-gray-900/80 p-8 rounded-2xl border border-gray-700 hover:border-purple-500 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20"
+              >
+                <div className="mb-4">{feature.icon}</div>
+                <h3 className="text-2xl font-bold mb-3">{feature.title}</h3>
+                <p className="text-gray-400">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
