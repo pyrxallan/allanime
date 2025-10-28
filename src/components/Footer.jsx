@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container mx-auto max-w-6xl">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-gray-400 text-center md:text-left">
-            © 2025 AllAnime. Built with ❤️ using React & Tailwind.
+            © 2025 AllAnime. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-400 transition-colors">
