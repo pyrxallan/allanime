@@ -32,8 +32,8 @@ npm run build
 ```
 
 ## Deployment
-Deployed on Render: 
+Deployed on Netlify: https://allanime.netlify.app/
 
-## 📄 License
+## License
 
 MIT License - feel free to use this project for learning!
