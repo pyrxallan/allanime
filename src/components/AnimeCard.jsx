@@ -43,24 +43,27 @@ export default function AnimeCard({ anime, isInWatchlist = false }) {
   };
 
   return (
-    <Link to={`/anime/${anime.mal_id}`} className="group relative bg-gray-800 rounded-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/30">
-      <div className="aspect-[3/4] overflow-hidden">
-        <img src={anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url} alt={anime.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-        <h3 className="text-xl font-bold mb-3 line-clamp-2">{anime.title}</h3>
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-sm text-gray-300">Score: {anime.score || 'N/A'}</span>
+    <div className="group relative bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/30">
+      <Link to={`/anime/${anime.mal_id}`}>
+        <div className="aspect-[2/3] overflow-hidden relative">
+          <img src={anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url} alt={anime.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         </div>
-        <button onClick={handleWatchlist} disabled={loading} className="w-full px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50">
-          {added ? <BookmarkCheck className="w-5 h-5" /> : <BookmarkPlus className="w-5 h-5" />}
-          {added ? 'In Watchlist' : 'Add to Watchlist'}
+      </Link>
+
+      <div className="p-3">
+        <Link to={`/anime/${anime.mal_id}`}>
+          <h3 className="text-sm font-semibold line-clamp-1 mb-1 hover:text-purple-400 transition-colors">{anime.title}</h3>
+        </Link>
+        <div className="flex items-center justify-between text-xs text-gray-400 mb-2">
+          <span>⭐ {anime.score || 'N/A'}</span>
+          {anime.episodes && <span>{anime.episodes} eps</span>}
+        </div>
+        <button onClick={handleWatchlist} disabled={loading} className="w-full px-3 py-1.5 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5 text-xs font-semibold disabled:opacity-50">
+          {added ? <BookmarkCheck className="w-3.5 h-3.5" /> : <BookmarkPlus className="w-3.5 h-3.5" />}
+          {added ? 'Saved' : 'Add'}
         </button>
       </div>
-      <div className="p-4">
-        <h3 className="text-lg font-semibold line-clamp-1">{anime.title}</h3>
-        <p className="text-sm text-gray-400 mt-1">Score: {anime.score || 'N/A'}</p>
-      </div>
-    </Link>
+    </div>
   );
 }
