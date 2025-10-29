@@ -6,31 +6,42 @@ import { Tv, BookmarkPlus, Smartphone, ChevronLeft, ChevronRight } from 'lucide-
 export default function Home() {
   const [trendingAnime, setTrendingAnime] = useState([]);
   const [topAnime, setTopAnime] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [trendingLoading, setTrendingLoading] = useState(true);
+  const [topLoading, setTopLoading] = useState(true);
   const [trendingPage, setTrendingPage] = useState(1);
   const [topPage, setTopPage] = useState(1);
 
   useEffect(() => {
-    fetchAnime();
-  }, [trendingPage, topPage]);
+    fetchTrendingAnime();
+  }, [trendingPage]);
 
-  const fetchAnime = async () => {
-    setLoading(true);
+  useEffect(() => {
+    fetchTopAnime();
+  }, [topPage]);
+
+  const fetchTrendingAnime = async () => {
+    setTrendingLoading(true);
     try {
-      const [trendingRes, topRes] = await Promise.all([
-        fetch(`https://api.jikan.moe/v4/top/anime?filter=airing&page=${trendingPage}&limit=12`),
-        fetch(`https://api.jikan.moe/v4/top/anime?page=${topPage}&limit=12`)
-      ]);
-
-      const trendingData = await trendingRes.json();
-      const topData = await topRes.json();
-
-      setTrendingAnime(trendingData.data || []);
-      setTopAnime(topData.data || []);
+      const response = await fetch(`https://api.jikan.moe/v4/top/anime?filter=airing&page=${trendingPage}&limit=12`);
+      const data = await response.json();
+      setTrendingAnime(data.data || []);
     } catch (error) {
-      console.error('Error fetching anime:', error);
+      console.error('Error fetching trending anime:', error);
     } finally {
-      setLoading(false);
+      setTrendingLoading(false);
+    }
+  };
+
+  const fetchTopAnime = async () => {
+    setTopLoading(true);
+    try {
+      const response = await fetch(`https://api.jikan.moe/v4/top/anime?page=${topPage}&limit=12`);
+      const data = await response.json();
+      setTopAnime(data.data || []);
+    } catch (error) {
+      console.error('Error fetching top anime:', error);
+    } finally {
+      setTopLoading(false);
     }
   };
 
@@ -114,7 +125,7 @@ export default function Home() {
               </button>
             </div>
           </div>
-          {loading ? (
+          {trendingLoading ? (
             <div className="text-center text-gray-400">Loading...</div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
@@ -141,7 +152,7 @@ export default function Home() {
               </button>
             </div>
           </div>
-          {loading ? (
+          {topLoading ? (
             <div className="text-center text-gray-400">Loading...</div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
