@@ -60,7 +60,7 @@ export default function Login() {
       <div className="w-full max-w-md">
         <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-700 p-8 shadow-2xl">
           <h2 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Welcome Back
+            Welcome
           </h2>
           <p className="text-center text-gray-400 mb-8">Log in to access your watchlist</p>
 
